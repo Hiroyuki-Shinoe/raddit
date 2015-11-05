@@ -1,5 +1,10 @@
 class LinksController < ApplicationController
   before_action :set_link, only: [:show, :edit, :update, :destroy]
+  # サインインしている人しか、各actionの処理を実行できなくする。
+  # devise gemが持つ authenticate_user! はサインインしていないユーザーの場合、
+  # ログインフォームページ /users/sign_inへ飛ばす。
+  # index と show actionには制限を書けない。
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /links
   # GET /links.json
@@ -18,7 +23,6 @@ class LinksController < ApplicationController
     # @link = Link.new
 
     @link = current_user.links.build
-
   end
 
   # GET /links/1/edit
@@ -30,7 +34,7 @@ class LinksController < ApplicationController
   def create
     # user modelとひも付けるために書き直す
     # @link = Link.new(link_params)
-    @link = current_user.build(link_params)
+    @link = current_user.links.build(link_params)
 
     respond_to do |format|
       if @link.save
