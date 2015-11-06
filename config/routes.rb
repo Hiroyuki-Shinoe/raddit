@@ -1,8 +1,29 @@
 Rails.application.routes.draw do
   devise_for :users
+
+  # resrouces で生成されるrouteに独自のrouteを追加する。
+  resources :links do
+    member do
+      put "like" => "links#upvote"
+      put "dislike" => "links#downvote"
+    end
+  end
+  # 上記の記述により以下のrouteが生成される。
+  # get '/links' => 'links#index', as: 'links'
+  # get '/links/new' => 'links#new', as: 'new_link'
+  # post '/links' => 'links#create'
+  # get '/links/:id' => 'links#show', as: 'link'
+  # get '/links/:id/edit' => 'links#edit', as: 'edit_link'
+  # patch '/links/:id' => 'links#update'
+  # put '/links/:id' => 'links#update'
+  # delete '/links/:id' => 'links#destroy'
+
+  # put '/links/:id/like' => 'links#upvote', as: 'like_link'
+  # put '/links/:id/dislike' => 'links#downvote', as: 'dislike_link'
+
   root 'links#index'
 
-  resources :links
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
