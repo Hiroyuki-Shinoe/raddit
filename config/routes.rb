@@ -1,14 +1,19 @@
 Rails.application.routes.draw do
+  resources :comments
   devise_for :users
 
-  # resrouces で生成されるrouteに独自のrouteを追加する。
+  # resrouces で生成されるrouteに独自のrouteを追加するために、memberを記述する。
   resources :links do
     member do
       put "like" => "links#upvote"
       put "dislike" => "links#downvote"
     end
+    # nested route の記述。
+    resources :comments
   end
   # 上記の記述により以下のrouteが生成される。
+
+  # reources :links で生成されるもの-----------------------------------
   # get '/links' => 'links#index', as: 'links'
   # get '/links/new' => 'links#new', as: 'new_link'
   # post '/links' => 'links#create'
@@ -18,8 +23,19 @@ Rails.application.routes.draw do
   # put '/links/:id' => 'links#update'
   # delete '/links/:id' => 'links#destroy'
 
+  # member 使用したことで生成されるもの----------------------------------
   # put '/links/:id/like' => 'links#upvote', as: 'like_link'
   # put '/links/:id/dislike' => 'links#downvote', as: 'dislike_link'
+
+  # nested resources :comments で生成されるもの------------------------
+  # get '/links/:link_id/comments' => 'comments#index', as: 'link_comments'
+  # get '/links/:link_id/comments/new' => 'comments#new', as: 'new_link_comment'
+  # post '/links/:link_id/comments' => 'comments#create'
+  # get '/links/:link_id/comments/:id' => 'comments#show', as: 'link_comment'
+  # get '/links/:link_id/comments/:id/edit' => 'comments#edit', as: 'edit_link_comment'
+  # patch '/links/:link_id/comments/:id' => 'comments#update'
+  # put '/links/:link_id/comments/:id' => 'comments#update'
+  # delete '/links/:link_id/comments/:id' => 'comments#destroy'
 
   root 'links#index'
 

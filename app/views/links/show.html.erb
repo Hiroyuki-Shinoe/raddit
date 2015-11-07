@@ -25,3 +25,25 @@
     <%= @link.get_downvotes.size %>
   <% end %>
 </div>
+
+<h3 class="comments_title">
+  <!-- 現在ついているコメントの数を表示 -->
+  <%= @link.comments.count %> Comments
+</h3>
+
+<div id="comments">
+  <!-- comments/_comment.html.erb パーシャルを呼び出し、
+  linkについているコメントを表示させる -->
+  <%= render partial: @link.comments %>
+</div>
+<!-- simple form gem を使用したcomment入力フォームの表示 -->
+<%= simple_form_for [@link, Comment.new] do |f| %>
+  <div class="field">
+    <%= f.text_area :body, class: 'form-control' %>
+  </div>
+  <br>
+  <%= f.submit 'Add Comment', class: 'btn btn-primary' %>
+<% end %>
+
+
+

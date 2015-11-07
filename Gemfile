@@ -35,6 +35,9 @@ gem 'autoprefixer-rails'
 
 gem 'acts_as_votable', '0.10.0'
 
+# htmlフォームを簡単に作成できるようにするgem
+gem 'simple_form', '3.2.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
